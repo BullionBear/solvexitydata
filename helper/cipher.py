@@ -32,7 +32,7 @@ def insert_api_key(name: str, exchange: str, api_key: str, api_secret: str, pass
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS trade_api (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(255) UNIQUE NOT NULL,
+            account VARCHAR(255) UNIQUE NOT NULL,
             exchange VARCHAR(255) NOT NULL,
             api_key VARCHAR(255) NOT NULL,
             api_secret TEXT NOT NULL,
@@ -42,7 +42,7 @@ def insert_api_key(name: str, exchange: str, api_key: str, api_secret: str, pass
 
     # Insert the API key and secrets into the database
     cursor.execute('''
-        INSERT INTO trade_api (name, exchange, api_key, api_secret, passphrase)
+        INSERT INTO trade_api (account, exchange, api_key, api_secret, passphrase)
         VALUES (%s, %s, %s, %s, %s)
     ''', (name, exchange, api_key, encrypted_api_secret, encrypted_passphrase))
 
@@ -59,7 +59,7 @@ def get_api_key(name: str, exchange: str):
     cursor.execute('''
         SELECT api_key, api_secret, passphrase
         FROM trade_api
-        WHERE name = %s AND exchange = %s
+        WHERE account = %s AND exchange = %s
     ''', (name, exchange))
     
     result = cursor.fetchone()
