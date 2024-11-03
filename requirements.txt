@@ -1,2 +1,6 @@
+SQLAlchemy
 alembic
+psycopg2-binary
+# Environment variable management
+python-dotenv
 python-binance
