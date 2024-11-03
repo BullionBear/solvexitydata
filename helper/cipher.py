@@ -51,29 +51,30 @@ def insert_api_key(name: str, exchange: str, api_key: str, api_secret: str, pass
     conn.close()
     print(f"API key for {name} on {exchange} inserted successfully.")
 
-def get_api_key(name: str, exchange: str):
+def get_api_key(name: str):
     # Retrieve and decrypt api_secret and passphrase
     conn = psycopg2.connect(DATABASE_URL)
     cursor = conn.cursor()
     
     cursor.execute('''
-        SELECT api_key, api_secret, passphrase
+        SELECT api_key, api_secret, passphrase, exchange
         FROM trade_api
-        WHERE account = %s AND exchange = %s
-    ''', (name, exchange))
+        WHERE account = %s
+    ''', (name,))
     
     result = cursor.fetchone()
     cursor.close()
     conn.close()
 
     if result:
-        api_key, encrypted_api_secret, encrypted_passphrase = result
+        api_key, encrypted_api_secret, encrypted_passphrase, exchange = result
         decrypted_api_secret = decrypt(encrypted_api_secret)
         
         # Prepare the result dictionary
         api_details = {
+            "exchange": exchange,
             "api_key": api_key,
-            "api_secret": decrypted_api_secret
+            "api_secret": decrypted_api_secret,
         }
         
         # Conditionally add passphrase if it exists
