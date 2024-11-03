@@ -1,4 +1,5 @@
 import argparse
+import json
 from helper.cipher import get_api_key
 
 def get_api_key_parser():
@@ -12,4 +13,5 @@ if __name__ == "__main__":
     parser = get_api_key_parser()
     args = parser.parse_args()
     
-    get_api_key(args.name, args.exchange)
+    api_detail = get_api_key(args.name, args.exchange)
+    print(json.dumps(api_detail))

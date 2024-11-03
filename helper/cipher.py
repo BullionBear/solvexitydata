@@ -69,8 +69,18 @@ def get_api_key(name: str, exchange: str):
     if result:
         api_key, encrypted_api_secret, encrypted_passphrase = result
         decrypted_api_secret = decrypt(encrypted_api_secret)
-        decrypted_passphrase = decrypt(encrypted_passphrase) if encrypted_passphrase else None
-        return {"api_key": api_key, "api_secret": decrypted_api_secret, "passphrase": decrypted_passphrase}
+        
+        # Prepare the result dictionary
+        api_details = {
+            "api_key": api_key,
+            "api_secret": decrypted_api_secret
+        }
+        
+        # Conditionally add passphrase if it exists
+        if encrypted_passphrase:
+            api_details["passphrase"] = decrypt(encrypted_passphrase)
+        
+        return api_details
     else:
         print("API key not found.")
         return None
