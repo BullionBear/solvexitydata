@@ -1,6 +1,8 @@
 SQLAlchemy
 alembic
 psycopg2-binary
+pandas
+tqdm
 # Environment variable management
 python-dotenv
 python-binance
