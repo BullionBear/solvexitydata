@@ -24,6 +24,7 @@ def upgrade():
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('dt', sa.DateTime(timezone=True), nullable=False),
         sa.Column('sid', sa.Integer, nullable=False),
+        sa.Column('account', sa.String(length=50), nullable=False),
         sa.Column('token', sa.String(length=50), nullable=False),
         sa.Column('amount', sa.Numeric(precision=18, scale=8), nullable=False),
         sa.Column('value_in_usd', sa.Numeric(precision=18, scale=2), nullable=False)
